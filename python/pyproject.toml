@@ -1,0 +1,23 @@
+[project]
+name = "csr-va-cif"
+description = "Common Ingestion Framework"
+dynamic = ["dependencies", "version"]
+
+[tool.setuptools]
+include-package-data = true
+
+[tool.setuptools.package-data]
+cif = ["*.txt"]
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["cif*"]
+exclude = ["tests*", "scratch*"]
+
+[tool.setuptools.dynamic]
+dependencies = {file="requirements.txt"}
+version = {file="VERSION"}
+
+[build-system]
+build-backend = "setuptools.build_meta"
+requires = ["setuptools", "wheel"]

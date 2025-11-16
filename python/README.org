@@ -1,0 +1,74 @@
+* Quick Start
+
+All Python code is in the ~python~ folder. To set up your development environment,
+perform the following steps:
+
+#+begin_src bash
+cd python
+make venv
+. venv/bin/activate
+make deps
+#+end_src  
+
+This will create a virtual environment (in ~venv~) and install all of the dependencies
+needed for runtime and development. You can update your virtual environment (e.g. if
+new libraries are added) by re-running ~make deps~ as needed.
+
+Development tasks are automated by the Makefile. Useful targets include:
+
+- ~make fmt~ runs the Black code formatter
+- ~make lint~ runs the Flake8 linter
+- ~make test~ runs all unit tests
+- ~make clean~ gets rid of temporary and other non-essential files
+- ~make info~ prints out information about the build environment
+- ~make pre-commit~ runs all of the targets for pre-commit (test, fmt, lint)
+- ~make dist~ builds a .whl and .tar.gz distribution
+- ~make realclean~ runs clean, and also deletes your virtual environment
+
+* Running the Application Locally
+
+Be sure to refresh your authentication tokens by running the following commands:
+
+#+begin_src bash
+gcloud auth login
+gcloud auth application-default login
+#+end_src
+
+This usually needs to be done once per day as tokens expire quickly.
+
+** Python Shell
+
+You can start a Python shell with some convenient initialization code as follows:
+
+#+begin_src bash
+. venv/bin/activate
+python -W ignore -i .pythonstartup.py
+#+end_src
+
+** FastAPI
+
+Start the FastAPI application to enable the capture/transcript web interfaces.
+
+Connect to the dev container and run the following commands:
+
+#+begin_src bash
+cd python
+. venv/bin/activate
+uvicorn cif.api:app --host 0.0.0.0 --port 8000
+#+end_src
+
+The container start script binds container port 8000 to host port 8555 by default, so
+pointing a browser at http://localhost:8555/docs will bring up the generated OpenAPI
+page.
+
+** Ingestion
+
+Run the ingestion process for a source with the following command:
+
+#+begin_src bash
+cd python
+. venv/bin/activate
+python -m cif.ingest <source-id>
+#+end_src
+
+Replace ~<source-id>~ with the ID of the source from the CIF catalog.
